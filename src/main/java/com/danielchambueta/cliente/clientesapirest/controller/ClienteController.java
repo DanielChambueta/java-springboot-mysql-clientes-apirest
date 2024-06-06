@@ -19,6 +19,12 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    // Metodo para listar todos los clientes
+    // Primero, se obtiene una lista de todos los clientes a través del servicio clienteService.
+    // Si la lista obtenida es nula, lo que significa que no hay clientes en la base de datos,
+    // se devuelve una respuesta con el mensaje "No hay registros" y un estado HTTP 200 (OK).
+    // Si la lista no es nula, se devuelve una respuesta con la lista de clientes y un estado HTTP 200 (OK).
+
     @GetMapping("clientes")
     public ResponseEntity<?> showAll() {
         List<Cliente> getList = clienteService.listAll();
@@ -39,7 +45,11 @@ public class ClienteController {
                 , HttpStatus.OK);
     }
 
-
+    // Metodo para crear un cliente
+    // Primero, se obtiene una lista de todos los clientes a través del servicio clienteService.
+    // Si la lista obtenida es nula, lo que significa que no hay clientes en la base de datos,
+    // se devuelve una respuesta con el mensaje "No hay registros" y un estado HTTP 200 (OK).
+    // Si la lista no es nula, se devuelve una respuesta con la lista de clientes y un estado HTTP 200 (OK).
     @PostMapping("cliente")
     public ResponseEntity<?> create(@RequestBody ClienteDto clienteDto) {
         Cliente clienteSave = null;
@@ -65,6 +75,13 @@ public class ClienteController {
                     , HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
+
+    // Metodo para actualizar un cliente
+    // Primero, verifica si el cliente con el ID proporcionado existe en la base de datos.
+    // Si el cliente existe, se actualiza el cliente con los datos proporcionados en el objeto clienteDto y se guarda en la base de datos.
+    // Luego, se devuelve una respuesta con el mensaje "Guardado correctamente", el objeto ClienteDto construido a partir del cliente actualizado y un estado HTTP 201 (CREATED).
+    // Si el cliente no existe, se devuelve una respuesta con el mensaje "El registro que intenta actualizar no se encuentra en la base de datos." y un estado HTTP 404 (NOT FOUND).
+    // Si ocurre una excepción de tipo DataAccessException durante el proceso de actualización, se devuelve una respuesta con el mensaje de la excepción y un estado HTTP 405 (METHOD NOT ALLOWED).
 
     @PutMapping("cliente/{id}")
     public ResponseEntity<?> update(@RequestBody ClienteDto clienteDto, @PathVariable Integer id) {
@@ -102,6 +119,12 @@ public class ClienteController {
         }
     }
 
+    // Metodo para eliminar un cliente
+    // Primero, verifica si el cliente con el ID proporcionado existe en la base de datos.
+    // Si el cliente existe, se elimina el cliente de la base de datos.
+    // Luego, se devuelve una respuesta con el cliente eliminado y un estado HTTP 204 (NO CONTENT).
+    // Si el cliente no existe, se devuelve una respuesta con el mensaje "El registro que intenta eliminar no se encuentra en la base de datos." y un estado HTTP 404 (NOT FOUND).
+    // Si ocurre una excepción de tipo DataAccessException durante el proceso de eliminación, se devuelve una respuesta con el mensaje de la excepción y un estado HTTP 405 (METHOD NOT ALLOWED).
     @DeleteMapping("cliente/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
@@ -118,6 +141,10 @@ public class ClienteController {
         }
     }
 
+    //Metodo para buscar un cliente por id
+    // Primero, verifica si el cliente con el ID proporcionado existe en la base de datos.
+    // Si el cliente existe, se devuelve una respuesta con el cliente encontrado y un estado HTTP 200 (OK).
+    // Si el cliente no existe, se devuelve una respuesta con el mensaje "El registro que intenta buscar, no existe!!" y un estado HTTP 404 (NOT FOUND).
     @GetMapping("cliente/{id}")
     public ResponseEntity<?> showById(@PathVariable Integer id) {
         Cliente cliente = clienteService.findById(id);
